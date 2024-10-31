@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 @dataclass
 class Categoria:
     idCategoria:int
@@ -37,12 +38,18 @@ class Sucursal:
     direccion:str
 
 @dataclass
+class Forma_de_Pago:
+    idFormaDePago:int
+    FormaDePago:str
+    
+@dataclass
 class Venta:
     idVenta: int
     idSucursal: int
     idEstado:int
     idEmpleado:int
     nitCliente: str
+    idFormaDePago:int
     serie:str
     factura:str
     fechahora:str
@@ -50,3 +57,61 @@ class Venta:
     mesventa:int
     documentoPago:str
     
+@dataclass
+class Detalle_Venta:
+    idDetalleVenta: int
+    idVenta: int
+    idProducto:int
+    cantidad:int
+    precioVentaUnitario:float
+
+@dataclass    
+class Proveedor:
+    nit:str
+    nombreFiscal:str
+    direccion:str
+    telefono:str
+    saldoPorPagar:float
+    email:str
+
+@dataclass
+class Compra:
+    idCompra: int
+    idSucursal: int
+    idEstado:int
+    idEmpleado:int
+    nitProveedor: str
+    idFormaDePago:int
+    factura:str
+    fechahora:str
+    anioventa:int
+    mesventa:int
+    documentoPago:str
+    
+@dataclass
+class Detalle_Compra:
+    idDetalleCompra: int
+    idCompra: int
+    idProducto:int
+    cantidad:int
+    precioCompraUnitario:float
+
+@dataclass
+class Modificacion_Compra:
+    idModificacion: int
+    idCompra:int
+    idCompraNueva: int
+    idEstado:int
+    fechaHoraModificacion:str
+    anioModificacion:int
+    mesModificacion:int
+    
+@dataclass
+class Modificacion_Venta:
+    idModificacion: int
+    idCompra: int
+    idCompraNueva:int
+    idEstado:int
+    fechaHoraModificacion:str
+    anioModificacion:int
+    mesModificacion:int

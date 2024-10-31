@@ -7,4 +7,4 @@ def oracleSessionCursor():
     )
 
     cursor=oracleConnection.cursor()
-    return cursor
+    return cursor   

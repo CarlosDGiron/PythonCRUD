@@ -1,8 +1,8 @@
-from controller.productosDBCRUD import ProductosCRUD
-from model.pdvModels import Producto
+from controller.estadosCRUD import EstadosCRUD
+from model.pdvModels import Categoria
 
-dbCRUD= ProductosCRUD()
-
-producto=Producto(idProductos=0,idCategoria=1,nombre="Producto Prueba", descripcion="Producto de Prueba", precioVentaUnitario=10, existencias=110)
-
-print(dbCRUD.insertProducto(producto=producto))
+dbCRUD= EstadosCRUD()
+categoria=dbCRUD.getEstadoByID(1)
+print(categoria)
+nombre=categoria[1]
+#print(dbCRUD.getIDByCategoria(nombre))

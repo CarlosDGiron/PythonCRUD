@@ -1,8 +1,8 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
-from model.pdvModels import Estado_Transaccion as Estado
+from model.pdvModels import Producto as Producto
 
-class EstadosCRUD:
+class ProductosCRUD:
     
     def __init__(self):
         self.db = oracleConnection.oracleSessionCursor()
@@ -10,54 +10,52 @@ class EstadosCRUD:
     def connectSession(self):
         return oracleConnection.oracleSessionCursor()
      
-    def getMaxIdEstado(self):
+    def getMaxIdProducto(self):
         if(self.db._verify_open):            
             self.db=self.connectSession()
         sql='''
-            SELECT MAX(IDESTADO) 
-            FROM PDV.ESTADOS_TRANSACCIONES;
+            SELECT MAX(IDPRODUCTO) 
+            FROM PDV.PRODUCTOS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
         self.db.close()
         return data[0]
     
-    def getAllEstados(self):
+    def getAllProductos(self):
         if(self.db._verify_open):            
             self.db=self.connectSession()
         sql='''
             SELECT * 
-            FROM PDV.ESTADOS_TRANSACCIONES;
+            FROM PDV.PRODUCTOS
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()
         return data
 
-    def getEstadoByID(self, id:int):
+    def getProductoByID(self, id:int):
         if(self.db._verify_open):            
             self.db=self.connectSession()
         sql=f'''
             SELECT * 
-            FROM PDV.ESTADOS_TRANSACCIONES
-            WHERE IDPRODUCTO={id};
+            FROM PDV.PRODUCTOS
+            WHERE IDPRODUCTO={id}
         '''
         self.db.execute(sql)
-        data = self.db.fetchall()
+        data = self.db.fetchone()
         self.db.close()
         return data
     
-    def insertEstado(self, estado:Estado):
+    def insertProducto(self, producto:Producto):
         try:
             data=False
-            id=self.getMaxIdEstado()+1
+            id=self.getMaxIdProducto()+1
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                INSERT INTO PDV.ESTADOS_TRANSACCIONES (IDESTADO, ESTADO, DESCRIPCION)
-                VALUES ({id},
-                {estado.estado},
-                '{estado.descripcion}');
+                INSERT INTO PDV.PRODUCTOS (IDPRODUCTO, IDCATEGORIA, NOMBRE, DESCRIPCION, PRECIOVENTAUNITARIO, EXISTENCIAS)
+                VALUES ({id}, {producto.idCategoria}, '{producto.nombre}', '{producto.descripcion}', {producto.precioVentaUnitario}, {producto.existencias})
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -71,13 +69,13 @@ class EstadosCRUD:
         finally:
             return data
         
-    def deleteEstado(self, estado:Estado):
+    def deleteProducto(self, producto:Producto):
         try:
             data=False
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                DELETE FROM PDV.ESTADOS_TRANSACCIONES WHERE IDESTADO={estado.idEstado};
+                DELETE FROM PDV.PRODUCTOS WHERE IDPRODUCTO={producto.idProducto}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -91,16 +89,19 @@ class EstadosCRUD:
         finally:
             return data
 
-    def updateEstado(self, estado:Estado):
+    def updateProducto(self, producto:Producto):
         try:
             data=False
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                UPDATE FROM PDV.ESTADOS_TRANSACCIONES 
-                SET  ESTADO='{estado.estado}', 
-                DESCRIPCION='{estado.descripcion}'
-                WHERE IDESTADO={estado.idEstado};
+                UPDATE FROM PDV.PRODUCTOS 
+                SET  IDCATEGORIA={producto.idCategoria}, 
+                NOMBRE='{producto.nombre}', 
+                DESCRIPCION='{producto.descripcion}', 
+                PRECIOVENTAUNITARIO={producto.precioVentaUnitario}, 
+                EXISTENCIAS={producto.existencias}, 
+                WHERE IDPRODUCTO={producto.idProducto}
             '''
             self.db.execute(sql)
             self.db.connection.commit()

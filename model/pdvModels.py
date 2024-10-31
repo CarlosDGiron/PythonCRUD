@@ -1,24 +1,26 @@
 from dataclasses import dataclass
 @dataclass
-
 class Categoria:
     idCategoria:int
     categoria:str
     descripcion:str
     
+@dataclass    
 class Producto:
-    idProductos:int
+    idProducto:int
     idCategoria:int
     nombre:str
     descripcion:str
     precioVentaUnitario:float
     existencias:int
-
+    
+@dataclass
 class Estado_Transaccion:
     idEstado:int
     estado:str
     descripcion:str
     
+@dataclass    
 class Cliente:
     nitCliente:str
     nombres:str
@@ -27,12 +29,14 @@ class Cliente:
     telefono:str
     saldoPorPagar:float
     
+@dataclass    
 class Sucursal:
     idSucursal:int
     idEmpleadoEncargado:int
     nombre:str
     direccion:str
 
+@dataclass
 class Venta:
     idVenta: int
     idSucursal: int

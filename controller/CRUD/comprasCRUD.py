@@ -29,6 +29,7 @@ class ComprasCRUD:
         sql = '''
             SELECT * 
             FROM COMPRAS
+            ORDER BY IDCOMPRA ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

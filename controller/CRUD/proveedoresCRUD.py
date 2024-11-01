@@ -16,6 +16,7 @@ class ProveedoresCRUD:
         sql = '''
             SELECT * 
             FROM PROVEEDORES
+            ORDER BY NIT ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchone()

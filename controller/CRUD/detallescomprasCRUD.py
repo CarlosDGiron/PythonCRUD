@@ -28,6 +28,7 @@ class DetallesComprasCRUD:
         sql = '''
             SELECT * 
             FROM DETALLES_COMPRAS
+            ORDER BY IDDETALLECOMPRA ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

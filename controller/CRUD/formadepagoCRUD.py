@@ -28,6 +28,7 @@ class FormaDePagoCRUD:
         sql = '''
             SELECT * 
             FROM FORMA_DE_PAGO
+            ORDER BY IDFORMADEPAGO ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

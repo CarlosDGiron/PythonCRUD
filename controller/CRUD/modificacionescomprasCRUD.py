@@ -28,6 +28,7 @@ class ModificacionesComprasCRUD:
         sql = '''
             SELECT * 
             FROM MODIFICACIONES_COMPRAS
+            ORDER BY IDMODIFICACION ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

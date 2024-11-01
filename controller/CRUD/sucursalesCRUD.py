@@ -28,6 +28,7 @@ class SucursalesCRUD:
         sql = '''
             SELECT * 
             FROM SUCURSALES
+            ORDER BY IDSUCURSAL ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

@@ -28,6 +28,7 @@ class EstadosCRUD:
         sql='''
             SELECT * 
             FROM ESTADOS_TRANSACCIONES
+            ORDER BY IDESTADO ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()

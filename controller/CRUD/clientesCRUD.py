@@ -13,10 +13,8 @@ class ClientesCRUD:
     def getAllClientes(self):
         if(self.db._verify_open):            
             self.db=self.connectSession()
-        sql = '''
-            SELECT * 
-            FROM CLIENTES
-        '''
+        sql = '''SELECT * FROM CLIENTES
+        ORDER BY NITCLIENTE ASC'''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()

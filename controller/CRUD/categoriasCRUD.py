@@ -26,7 +26,8 @@ class CategoriasCRUD:
         print(self.db._verify_open)
         if(self.db._verify_open):            
             self.db=self.connectSession()
-        sql = '''SELECT * FROM CATEGORIAS '''
+        sql = '''SELECT * FROM CATEGORIAS 
+        ORDER BY IDCATEGORIA ASC'''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()

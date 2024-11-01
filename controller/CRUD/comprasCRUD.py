@@ -1,6 +1,7 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
-from model.pdvModels import Compra as Compras
+from model.pdvModels import Compra as Compra
+from controller.CRUD.detallescomprasCRUD import DetallesComprasCRUD
 
 class ComprasCRUD:
     
@@ -47,7 +48,7 @@ class ComprasCRUD:
         self.db.close()
         return data
 
-    def insertCompra(self, compra: Compras):
+    def insertCompra(self, compra: Compra):
         try:
             data = False
             id = self.getMaxIdCompra() + 1
@@ -69,7 +70,7 @@ class ComprasCRUD:
         finally:
             return data
 
-    def deleteCompra(self, compra: Compras):
+    def deleteCompra(self, compra: Compra):
         try:
             data = False
             if(self.db._verify_open):            
@@ -89,7 +90,7 @@ class ComprasCRUD:
         finally:
             return data
 
-    def updateCompra(self, compra: Compras):
+    def updateCompra(self, compra: Compra):
         try:
             data = False
             if(self.db._verify_open):            
@@ -105,6 +106,29 @@ class ComprasCRUD:
                     ANIOVENTA = {compra.anioventa}, 
                     MESVENTA = {compra.mesventa}, 
                     DOCUMENTOPAGO = '{compra.documentoPago}'
+                WHERE IDCOMPRA = {compra.idCompra}
+            '''
+            self.db.execute(sql)
+            self.db.connection.commit()
+        except Error as error:
+            print(error)
+        except Exception as exception:
+            print(exception)
+        else:            
+            self.db.close()
+            data = True
+        finally:
+            return data
+        
+    def updateTotalVenta(self, compra: Compra):
+        try:
+            detalleCompra=DetallesComprasCRUD()
+            data = False
+            if(self.db._verify_open):            
+                self.db = self.connectSession()
+            sql = f'''
+                UPDATE COMPRAS 
+                SET TOTALCOMPRA = '{detalleCompra.getTotalCompraByID(compra.idCompra)}'
                 WHERE IDCOMPRA = {compra.idCompra}
             '''
             self.db.execute(sql)

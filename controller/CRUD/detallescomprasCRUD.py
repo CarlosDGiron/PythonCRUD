@@ -59,6 +59,19 @@ class DetallesComprasCRUD:
         data = self.db.fetchall()
         self.db.close()
         return data
+        
+    def getTotalCompraByID(self, id: int):
+        if(self.db._verify_open):            
+            self.db = self.connectSession()
+        sql = f'''
+            SELECT SUM(CANTIDAD * PRECIOCOMPRAUNITARIO) AS TOTAL_COMPRA 
+            FROM DETALLES_COMPRAS
+            WHERE IDCOMPRA = {id}
+        '''
+        self.db.execute(sql)
+        data = self.db.fetchone()
+        self.db.close()
+        return data
 
     def insertDetalleCompra(self, detalleCompra: Detalles_Compras):
         try:

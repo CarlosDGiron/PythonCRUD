@@ -34,11 +34,7 @@ class VentasCRUD:
         data = self.db.fetchall()
         self.db.close()
         return data
-    
-    def getTotalVentaByID(self,id:int):
-        detallesVentasCRUD= DetallesVentasCRUD()
-        return detallesVentasCRUD.getTotalVentaByID(id)
-        
+           
     def getVentaByID(self, id: int):
         if(self.db._verify_open):            
             self.db = self.connectSession()
@@ -112,6 +108,29 @@ class VentasCRUD:
                     ANIOVENTA = {venta.anioventa}, 
                     MESVENTA = {venta.mesventa}, 
                     DOCUMENTOPAGO = '{venta.documentoPago}'
+                WHERE IDVENTA = {venta.idVenta}
+            '''
+            self.db.execute(sql)
+            self.db.connection.commit()
+        except Error as error:
+            print(error)
+        except Exception as exception:
+            print(exception)
+        else:            
+            self.db.close()
+            data = True
+        finally:
+            return data
+        
+    def updateTotalVenta(self, venta: Venta):
+        try:
+            detalleVenta=DetallesVentasCRUD()
+            data = False
+            if(self.db._verify_open):            
+                self.db = self.connectSession()
+            sql = f'''
+                UPDATE VENTAS 
+                SET TOTALVENTA = '{detalleVenta.getTotalVentaByID(Venta.idVenta)}'
                 WHERE IDVENTA = {venta.idVenta}
             '''
             self.db.execute(sql)

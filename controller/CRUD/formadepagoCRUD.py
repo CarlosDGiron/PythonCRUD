@@ -1,8 +1,8 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
-from model.pdvModels import Cliente as Cliente
+from model.pdvModels import Forma_de_Pago as Forma_de_Pago
 
-class ClientesCRUD:
+class FormaDePagoCRUD:
     
     def __init__(self):
         self.db = oracleConnection.oracleSessionCursor()
@@ -10,39 +10,52 @@ class ClientesCRUD:
     def connectSession(self):
         return oracleConnection.oracleSessionCursor()
     
-    def getAllClientes(self):
+    def getMaxIdFormaDePago(self):
+        if(self.db._verify_open):            
+            self.db=self.connectSession()
+        sql = '''
+            SELECT MAX(IDFORMADEPAGO) 
+            FROM PDV.FORMA_DE_PAGO
+        '''
+        self.db.execute(sql)
+        data = self.db.fetchone()
+        self.db.close()
+        return data[0]
+    
+    def getAllFormasDePago(self):
         if(self.db._verify_open):            
             self.db=self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.CLIENTES
+            FROM PDV.FORMA_DE_PAGO
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()
         return data
 
-    def getClienteByNIT(self, nit: str):
+    def getFormaDePagoByID(self, id: int):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.CLIENTES
-            WHERE NITCLIENTE = '{nit}'
+            FROM PDV.FORMA_DE_PAGO
+            WHERE IDFORMADEPAGO = {id}
         '''
         self.db.execute(sql)
-        data = self.db.fetchall()
+        data = self.db.fetchone()
         self.db.close()
         return data
 
-    def insertCliente(self, cliente: Cliente):
+    def insertFormaDePago(self, formaDePago: Forma_de_Pago):
         try:
             data = False
+            id = self.getMaxIdFormaDePago() + 1
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.CLIENTES (NITCLIENTE, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, SALDOPORPAGAR)
-                VALUES ('{cliente.nitCliente}', '{cliente.nombres}', '{cliente.apellidos}', '{cliente.direccion}', '{cliente.telefono}', {cliente.saldoPorPagar})
+                INSERT INTO PDV.FORMA_DE_PAGO (IDFORMADEPAGO, FORMADEPAGO)
+                VALUES ({id}, '{formaDePago.formaDePago}')
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -56,13 +69,13 @@ class ClientesCRUD:
         finally:
             return data
 
-    def deleteCliente(self, cliente: Cliente):
+    def deleteFormaDePago(self, formaDePago: Forma_de_Pago):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.CLIENTES WHERE NITCLIENTE = '{cliente.nitCliente}'
+                DELETE FROM PDV.FORMA_DE_PAGO WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -76,19 +89,15 @@ class ClientesCRUD:
         finally:
             return data
 
-    def updateCliente(self, cliente: Cliente):
+    def updateFormaDePago(self, formaDePago: Forma_de_Pago):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.CLIENTES 
-                SET NOMBRES = '{cliente.nombres}', 
-                    APELLIDOS = '{cliente.apellidos}', 
-                    DIRECCION = '{cliente.direccion}', 
-                    TELEFONO = '{cliente.telefono}', 
-                    SALDOPORPAGAR = {cliente.saldoPorPagar} 
-                WHERE NITCLIENTE = '{cliente.nitCliente}'
+                UPDATE PDV.FORMA_DE_PAGO 
+                SET FORMADEPAGO = '{formaDePago.formaDePago}'
+                WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
             '''
             self.db.execute(sql)
             self.db.connection.commit()

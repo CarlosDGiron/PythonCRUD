@@ -1,8 +1,8 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
-from model.pdvModels import Forma_de_Pago as Forma_de_Pago
+from model.pdvModels import Proveedor as Proveedores
 
-class FormaDePagoCRUD:
+class ProveedoresCRUD:
     
     def __init__(self):
         self.db = oracleConnection.oracleSessionCursor()
@@ -10,52 +10,39 @@ class FormaDePagoCRUD:
     def connectSession(self):
         return oracleConnection.oracleSessionCursor()
     
-    def getMaxIdFormaDePago(self):
+    def getAllProveedores(self):
         if(self.db._verify_open):            
-            self.db=self.connectSession()
+            self.db = self.connectSession()
         sql = '''
-            SELECT MAX(IDFORMADEPAGO) 
-            FROM PDV.FORMA_DE_PAGO
+            SELECT * 
+            FROM PDV.PROVEEDORES
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
         self.db.close()
-        return data[0]
-    
-    def getAllFormasDePago(self):
-        if(self.db._verify_open):            
-            self.db=self.connectSession()
-        sql = '''
-            SELECT * 
-            FROM PDV.FORMA_DE_PAGO
-        '''
-        self.db.execute(sql)
-        data = self.db.fetchall()
-        self.db.close()
         return data
 
-    def getFormaDePagoByID(self, id: int):
+    def getProveedorByNIT(self, nit: str):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.FORMA_DE_PAGO
-            WHERE IDFORMADEPAGO = {id}
+            FROM PDV.PROVEEDORES
+            WHERE NIT = '{nit}'
         '''
         self.db.execute(sql)
-        data = self.db.fetchall()
+        data = self.db.fetchone()
         self.db.close()
         return data
 
-    def insertFormaDePago(self, formaDePago: Forma_de_Pago):
+    def insertProveedor(self, proveedor: Proveedores):
         try:
             data = False
-            id = self.getMaxIdFormaDePago() + 1
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.FORMA_DE_PAGO (IDFORMADEPAGO, FORMADEPAGO)
-                VALUES ({id}, '{formaDePago.FormaDePago}')
+                INSERT INTO PDV.PROVEEDORES (NIT, NOMBREFISCAL, DIRECCION, TELEFONO, SALDOPORPAGAR, EMAIL)
+                VALUES ('{proveedor.nit}', '{proveedor.nombreFiscal}', '{proveedor.direccion}', '{proveedor.telefono}', {proveedor.saldoPorPagar}, '{proveedor.email}')
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -69,13 +56,13 @@ class FormaDePagoCRUD:
         finally:
             return data
 
-    def deleteFormaDePago(self, formaDePago: Forma_de_Pago):
+    def deleteProveedor(self, proveedor: Proveedores):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.FORMA_DE_PAGO WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
+                DELETE FROM PDV.PROVEEDORES WHERE NIT = '{proveedor.nit}'
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -89,15 +76,19 @@ class FormaDePagoCRUD:
         finally:
             return data
 
-    def updateFormaDePago(self, formaDePago: Forma_de_Pago):
+    def updateProveedor(self, proveedor: Proveedores):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.FORMA_DE_PAGO 
-                SET FORMADEPAGO = '{formaDePago.FormaDePago}'
-                WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
+                UPDATE PDV.PROVEEDORES 
+                SET NOMBREFISCAL = '{proveedor.nombreFiscal}', 
+                    DIRECCION = '{proveedor.direccion}', 
+                    TELEFONO = '{proveedor.telefono}', 
+                    SALDOPORPAGAR = {proveedor.saldoPorPagar}, 
+                    EMAIL = '{proveedor.email}' 
+                WHERE NIT = '{proveedor.nit}'
             '''
             self.db.execute(sql)
             self.db.connection.commit()

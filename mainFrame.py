@@ -1,8 +1,10 @@
-from controller.detallesventasCRUD import DetallesVentasCRUD
-from model.pdvModels import Categoria
+from controller.CRUD.proveedoresCRUD import ProveedoresCRUD
+from model.pdvModels import Proveedor
+import datetime
 
-dbCRUD= DetallesVentasCRUD()
-categoria=dbCRUD.getDetallesVentasByIDVenta(23)
-print(categoria)
-nombre=categoria[1]
-#print(dbCRUD.getIDByCategoria(nombre))
+dbCRUD= ProveedoresCRUD()
+data=dbCRUD.getProveedorByNIT('P0001')
+print(data)
+nombre=Proveedor()
+nombre.set(data)
+print (nombre)

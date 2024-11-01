@@ -15,7 +15,7 @@ class EstadosCRUD:
             self.db=self.connectSession()
         sql='''
             SELECT MAX(IDESTADO) 
-            FROM PDV.ESTADOS_TRANSACCIONES
+            FROM ESTADOS_TRANSACCIONES
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class EstadosCRUD:
             self.db=self.connectSession()
         sql='''
             SELECT * 
-            FROM PDV.ESTADOS_TRANSACCIONES
+            FROM ESTADOS_TRANSACCIONES
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +39,7 @@ class EstadosCRUD:
             self.db=self.connectSession()
         sql=f'''
             SELECT * 
-            FROM PDV.ESTADOS_TRANSACCIONES
+            FROM ESTADOS_TRANSACCIONES
             WHERE IDESTADO={id}
         '''
         self.db.execute(sql)
@@ -54,7 +54,7 @@ class EstadosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                INSERT INTO PDV.ESTADOS_TRANSACCIONES (IDESTADO, ESTADO, DESCRIPCION)
+                INSERT INTO ESTADOS_TRANSACCIONES (IDESTADO, ESTADO, DESCRIPCION)
                 VALUES ({id},
                 {estado.estado},
                 '{estado.descripcion}')
@@ -77,7 +77,7 @@ class EstadosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                DELETE FROM PDV.ESTADOS_TRANSACCIONES WHERE IDESTADO={estado.idEstado}
+                DELETE FROM ESTADOS_TRANSACCIONES WHERE IDESTADO={estado.idEstado}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -97,7 +97,7 @@ class EstadosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                UPDATE FROM PDV.ESTADOS_TRANSACCIONES 
+                UPDATE FROM ESTADOS_TRANSACCIONES 
                 SET  ESTADO='{estado.estado}', 
                 DESCRIPCION='{estado.descripcion}'
                 WHERE IDESTADO={estado.idEstado}

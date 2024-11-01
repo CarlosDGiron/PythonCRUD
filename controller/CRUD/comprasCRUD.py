@@ -15,7 +15,7 @@ class ComprasCRUD:
             self.db = self.connectSession()
         sql = '''
             SELECT MAX(IDCOMPRA) 
-            FROM PDV.COMPRAS
+            FROM COMPRAS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class ComprasCRUD:
             self.db = self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.COMPRAS
+            FROM COMPRAS
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +39,7 @@ class ComprasCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.COMPRAS
+            FROM COMPRAS
             WHERE IDCOMPRA = {id}
         '''
         self.db.execute(sql)
@@ -54,7 +54,7 @@ class ComprasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.COMPRAS (IDCOMPRA, IDSUCURSAL, IDESTADO,  NITPROVEEDOR, IDFORMADEPAGO, FACTURA, FECHAHORA, ANIOVENTA, MESVENTA, DOCUMENTOPAGO)
+                INSERT INTO COMPRAS (IDCOMPRA, IDSUCURSAL, IDESTADO,  NITPROVEEDOR, IDFORMADEPAGO, FACTURA, FECHAHORA, ANIOVENTA, MESVENTA, DOCUMENTOPAGO)
                 VALUES ({id}, {compra.idSucursal}, {compra.idEstado}, '{compra.nitProveedor}', {compra.idFormaDePago}, '{compra.factura}', '{compra.fechahora}', {compra.anioventa}, {compra.mesventa}, '{compra.documentoPago}')
             '''
             self.db.execute(sql)
@@ -75,7 +75,7 @@ class ComprasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.COMPRAS WHERE IDCOMPRA = {compra.idCompra}
+                DELETE FROM COMPRAS WHERE IDCOMPRA = {compra.idCompra}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -95,7 +95,7 @@ class ComprasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.COMPRAS 
+                UPDATE COMPRAS 
                 SET IDSUCURSAL = {compra.idSucursal}, 
                     IDESTADO = {compra.idEstado},                     
                     NITPROVEEDOR = '{compra.nitProveedor}', 

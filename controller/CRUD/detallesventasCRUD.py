@@ -15,7 +15,7 @@ class DetallesVentasCRUD:
             self.db = self.connectSession()
         sql = '''
             SELECT MAX(IDDETALLEVENTA) 
-            FROM PDV.DETALLES_VENTAS
+            FROM DETALLES_VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class DetallesVentasCRUD:
             self.db = self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.DETALLES_VENTAS
+            FROM DETALLES_VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +39,7 @@ class DetallesVentasCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.DETALLES_VENTAS
+            FROM DETALLES_VENTAS
             WHERE IDDETALLEVENTA = {id}
         '''
         self.db.execute(sql)
@@ -52,11 +52,24 @@ class DetallesVentasCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.DETALLES_VENTAS
+            FROM DETALLES_VENTAS
             WHERE IDVENTA = {id}
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
+        self.db.close()
+        return data
+    
+    def getTotalVentaByID(self, id: int):
+        if(self.db._verify_open):            
+            self.db = self.connectSession()
+        sql = f'''
+            SELECT SUM(CANTIDAD * PRECIOVENTAUNITARIO) AS TOTAL_VENTA 
+            FROM DETALLES_VENTAS
+            WHERE IDVENTA = {id}
+        '''
+        self.db.execute(sql)
+        data = self.db.fetchone()
         self.db.close()
         return data
 
@@ -67,7 +80,7 @@ class DetallesVentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.DETALLES_VENTAS (IDDETALLEVENTA, IDVENTA, IDPRODUCTO, CANTIDAD, PRECIOVENTAUNITARIO)
+                INSERT INTO DETALLES_VENTAS (IDDETALLEVENTA, IDVENTA, IDPRODUCTO, CANTIDAD, PRECIOVENTAUNITARIO)
                 VALUES ({id}, {detalleVenta.idVenta}, {detalleVenta.idProducto}, {detalleVenta.cantidad}, {detalleVenta.precioVentaUnitario})
             '''
             self.db.execute(sql)
@@ -88,7 +101,7 @@ class DetallesVentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.DETALLES_VENTAS WHERE IDDETALLEVENTA = {detalleVenta.idDetalleVenta}
+                DELETE FROM DETALLES_VENTAS WHERE IDDETALLEVENTA = {detalleVenta.idDetalleVenta}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -108,7 +121,7 @@ class DetallesVentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.DETALLES_VENTAS 
+                UPDATE DETALLES_VENTAS 
                 SET IDVENTA = {detalleVenta.idVenta}, 
                     IDPRODUCTO = {detalleVenta.idProducto}, 
                     CANTIDAD = {detalleVenta.cantidad}, 

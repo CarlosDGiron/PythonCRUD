@@ -1,8 +1,8 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
-from model.pdvModels import Detalle_Compra as Detalles_Compras
+from model.pdvModels import Modificacion_Venta as Modificaciones_Ventas
 
-class DetallesComprasCRUD:
+class ModificacionesVentasCRUD:
     
     def __init__(self):
         self.db = oracleConnection.oracleSessionCursor()
@@ -10,65 +10,65 @@ class DetallesComprasCRUD:
     def connectSession(self):
         return oracleConnection.oracleSessionCursor()
     
-    def getMaxIdDetalleCompra(self):
+    def getMaxIdModificacionVenta(self):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = '''
-            SELECT MAX(IDDETALLECOMPRA) 
-            FROM DETALLES_COMPRAS
+            SELECT MAX(IDMODIFICACION) 
+            FROM MODIFICACIONES_VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
         self.db.close()
         return data[0]
     
-    def getAllDetallesCompras(self):
+    def getAllModificacionesVentas(self):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = '''
             SELECT * 
-            FROM DETALLES_COMPRAS
+            FROM MODIFICACIONES_VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()
         return data
 
-    def getDetalleCompraByID(self, id: int):
+    def getModificacionVentaByIDModificacion(self, id: int):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM DETALLES_COMPRAS
-            WHERE IDDETALLECOMPRA = {id}
+            FROM MODIFICACIONES_VENTAS
+            WHERE IDMODIFICACION = {id}
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
         self.db.close()
         return data
     
-    def getDetallesComprasByIDCompra(self, id: int):
+    def getModificacionVentaByIDVenta(self, id: int):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM DETALLES_COMPRAS
-            WHERE IDCOMPRA = {id}
+            FROM MODIFICACIONES_VENTAS
+            WHERE IDVENTA = {id}
         '''
         self.db.execute(sql)
-        data = self.db.fetchall()
+        data = self.db.fetchone()
         self.db.close()
         return data
 
-    def insertDetalleCompra(self, detalleCompra: Detalles_Compras):
+    def insertModificacionVenta(self, modificacionVenta: Modificaciones_Ventas):
         try:
             data = False
-            id = self.getMaxIdDetalleCompra() + 1
+            id = self.getMaxIdModificacionVenta() + 1
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO DETALLES_COMPRAS (IDDETALLECOMPRA, IDCOMPRA, IDPRODUCTO, CANTIDAD, PRECIOCOMPRAUNITARIO)
-                VALUES ({id}, {detalleCompra.idCompra}, {detalleCompra.idProducto}, {detalleCompra.cantidad}, {detalleCompra.precioCompraUnitario})
+                INSERT INTO MODIFICACIONES_VENTAS (IDMODIFICACION, IDCOMPRA, IDCOMPRANUEVA, IDESTADO, FECHAHORAMODIFICACION, ANIOMODIFICACION, MESMODIFICACION)
+                VALUES ({id}, {modificacionVenta.idCompra}, {modificacionVenta.idCompraNueva}, {modificacionVenta.idEstado}, '{modificacionVenta.fechaHoraModificacion}', {modificacionVenta.anioModificacion}, {modificacionVenta.mesModificacion})
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -82,13 +82,13 @@ class DetallesComprasCRUD:
         finally:
             return data
 
-    def deleteDetalleCompra(self, detalleCompra: Detalles_Compras):
+    def deleteModificacionVenta(self, modificacionVenta: Modificaciones_Ventas):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM DETALLES_COMPRAS WHERE IDDETALLECOMPRA = {detalleCompra.idDetalleCompra}
+                DELETE FROM MODIFICACIONES_VENTAS WHERE IDMODIFICACION = {modificacionVenta.idModificacion}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -102,18 +102,20 @@ class DetallesComprasCRUD:
         finally:
             return data
 
-    def updateDetalleCompra(self, detalleCompra: Detalles_Compras):
+    def updateModificacionVenta(self, modificacionVenta: Modificaciones_Ventas):
         try:
             data = False
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE DETALLES_COMPRAS 
-                SET IDCOMPRA = {detalleCompra.idCompra}, 
-                    IDPRODUCTO = {detalleCompra.idProducto}, 
-                    CANTIDAD = {detalleCompra.cantidad}, 
-                    PRECIOCOMPRAUNITARIO = {detalleCompra.precioCompraUnitario}
-                WHERE IDDETALLECOMPRA = {detalleCompra.idDetalleCompra}
+                UPDATE MODIFICACIONES_VENTAS 
+                SET IDCOMPRA = {modificacionVenta.idCompra}, 
+                    IDCOMPRANUEVA = {modificacionVenta.idCompraNueva}, 
+                    IDESTADO = {modificacionVenta.idEstado}, 
+                    FECHAHORAMODIFICACION = '{modificacionVenta.fechaHoraModificacion}', 
+                    ANIOMODIFICACION = {modificacionVenta.anioModificacion}, 
+                    MESMODIFICACION = {modificacionVenta.mesModificacion}
+                WHERE IDMODIFICACION = {modificacionVenta.idModificacion}
             '''
             self.db.execute(sql)
             self.db.connection.commit()

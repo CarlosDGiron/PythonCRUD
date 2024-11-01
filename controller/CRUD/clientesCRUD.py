@@ -15,7 +15,7 @@ class ClientesCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.CLIENTES
+            FROM CLIENTES
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -27,7 +27,7 @@ class ClientesCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.CLIENTES
+            FROM CLIENTES
             WHERE NITCLIENTE = '{nit}'
         '''
         self.db.execute(sql)
@@ -41,7 +41,7 @@ class ClientesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.CLIENTES (NITCLIENTE, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, SALDOPORPAGAR)
+                INSERT INTO CLIENTES (NITCLIENTE, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, SALDOPORPAGAR)
                 VALUES ('{cliente.nitCliente}', '{cliente.nombres}', '{cliente.apellidos}', '{cliente.direccion}', '{cliente.telefono}', {cliente.saldoPorPagar})
             '''
             self.db.execute(sql)
@@ -62,7 +62,7 @@ class ClientesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.CLIENTES WHERE NITCLIENTE = '{cliente.nitCliente}'
+                DELETE FROM CLIENTES WHERE NITCLIENTE = '{cliente.nitCliente}'
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -82,7 +82,7 @@ class ClientesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.CLIENTES 
+                UPDATE CLIENTES 
                 SET NOMBRES = '{cliente.nombres}', 
                     APELLIDOS = '{cliente.apellidos}', 
                     DIRECCION = '{cliente.direccion}', 

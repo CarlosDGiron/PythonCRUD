@@ -15,7 +15,7 @@ class CategoriasCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT MAX(IDCATEGORIA) 
-            FROM PDV.CATEGORIAS
+            FROM CATEGORIAS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -26,7 +26,7 @@ class CategoriasCRUD:
         print(self.db._verify_open)
         if(self.db._verify_open):            
             self.db=self.connectSession()
-        sql = '''SELECT * FROM PDV.CATEGORIAS '''
+        sql = '''SELECT * FROM CATEGORIAS '''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()
@@ -37,7 +37,7 @@ class CategoriasCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.CATEGORIAS
+            FROM CATEGORIAS
             WHERE IDCATEGORIA = {id}
         '''
         self.db.execute(sql)
@@ -50,7 +50,7 @@ class CategoriasCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT IDCATEGORIA 
-            FROM PDV.CATEGORIAS
+            FROM CATEGORIAS
             WHERE CATEGORIA ='{categoria}'
             '''
         self.db.execute(sql)
@@ -65,7 +65,7 @@ class CategoriasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.CATEGORIAS (IDCATEGORIA, CATEGORIA, DESCRIPCION)
+                INSERT INTO CATEGORIAS (IDCATEGORIA, CATEGORIA, DESCRIPCION)
                 VALUES ({id}, '{categoria.categoria}', '{categoria.descripcion}')
             '''
             self.db.execute(sql)
@@ -86,7 +86,7 @@ class CategoriasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.CATEGORIAS WHERE IDCATEGORIA = {categoria.idCategoria}
+                DELETE FROM CATEGORIAS WHERE IDCATEGORIA = {categoria.idCategoria}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -106,7 +106,7 @@ class CategoriasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.CATEGORIAS 
+                UPDATE CATEGORIAS 
                 SET CATEGORIA = '{categoria.categoria}', 
                 DESCRIPCION = '{categoria.descripcion}' 
                 WHERE IDCATEGORIA = {categoria.idCategoria}

@@ -95,6 +95,7 @@ class Venta:
     anioventa:int = 0
     mesventa:int = 0
     documentoPago:str = ""
+    totalVenta:float=0.0
     
     def getFormatedDate(self):    
         return self.fechahora.strftime("%d/%m/%Y %H:%M:%S")
@@ -112,6 +113,7 @@ class Venta:
         self.anioventa=list[8]
         self.mesventa=list[9]
         self.documentoPago=list[10]
+        self.totalVenta=list[11]
     
 @dataclass
 class Detalle_Venta:
@@ -157,6 +159,8 @@ class Compra:
     anioventa:int = 0
     mesventa:int = 0
     documentoPago:str = ""
+    totalCompra:float = 0.0
+    
     
     def getFormatedDate(self):    
         return self.fechahora.strftime("%d/%m/%Y %H:%M:%S")
@@ -172,6 +176,7 @@ class Compra:
         self.factura=list[7]
         self.documentoPago=list[8]
         self.idFormaDePago=list[9]
+        self.totalCompra=list[10]
     
 @dataclass
 class Detalle_Compra:

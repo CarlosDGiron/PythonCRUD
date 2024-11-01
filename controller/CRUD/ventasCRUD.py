@@ -1,6 +1,7 @@
 import controller.oracleConnection as oracleConnection
 from oracledb import *
 from model.pdvModels import Venta as Venta
+from  controller.CRUD.detallesventasCRUD import DetallesVentasCRUD
 
 class VentasCRUD:
     
@@ -15,7 +16,7 @@ class VentasCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT MAX(IDVENTA) 
-            FROM PDV.VENTAS
+            FROM VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,19 +28,23 @@ class VentasCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.VENTAS
+            FROM VENTAS
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
         self.db.close()
         return data
-
+    
+    def getTotalVentaByID(self,id:int):
+        detallesVentasCRUD= DetallesVentasCRUD()
+        return detallesVentasCRUD.getTotalVentaByID(id)
+        
     def getVentaByID(self, id: int):
         if(self.db._verify_open):            
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.VENTAS
+            FROM VENTAS
             WHERE IDVENTA = {id}
         '''
         self.db.execute(sql)
@@ -54,7 +59,7 @@ class VentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.VENTAS (IDVENTA, IDSUCURSAL, IDESTADO, IDEMPLEADO, NITCLIENTE, IDFORMADEPAGO, SERIE, FACTURA, FECHAHORA, ANIOVENTA, MESVENTA, DOCUMENTOPAGO)
+                INSERT INTO VENTAS (IDVENTA, IDSUCURSAL, IDESTADO, IDEMPLEADO, NITCLIENTE, IDFORMADEPAGO, SERIE, FACTURA, FECHAHORA, ANIOVENTA, MESVENTA, DOCUMENTOPAGO)
                 VALUES ({id}, {venta.idSucursal}, {venta.idEstado}, {venta.idEmpleado}, '{venta.nitCliente}', {venta.idFormaDePago}, '{venta.serie}', '{venta.factura}', '{venta.fechahora}', {venta.anioventa}, {venta.mesventa}, '{venta.documentoPago}')
             '''
             self.db.execute(sql)
@@ -75,7 +80,7 @@ class VentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.VENTAS WHERE IDVENTA = {venta.idVenta}
+                DELETE FROM VENTAS WHERE IDVENTA = {venta.idVenta}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -95,7 +100,7 @@ class VentasCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.VENTAS 
+                UPDATE VENTAS 
                 SET IDSUCURSAL = {venta.idSucursal}, 
                     IDESTADO = {venta.idEstado}, 
                     IDEMPLEADO = {venta.idEmpleado}, 

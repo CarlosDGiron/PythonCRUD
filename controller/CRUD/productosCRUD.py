@@ -15,7 +15,7 @@ class ProductosCRUD:
             self.db=self.connectSession()
         sql='''
             SELECT MAX(IDPRODUCTO) 
-            FROM PDV.PRODUCTOS
+            FROM PRODUCTOS
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,8 @@ class ProductosCRUD:
             self.db=self.connectSession()
         sql='''
             SELECT * 
-            FROM PDV.PRODUCTOS
+            FROM PRODUCTOS
+            ORDER BY IDPRODUCTO ASC
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +40,7 @@ class ProductosCRUD:
             self.db=self.connectSession()
         sql=f'''
             SELECT * 
-            FROM PDV.PRODUCTOS
+            FROM PRODUCTOS
             WHERE IDPRODUCTO={id}
         '''
         self.db.execute(sql)
@@ -54,7 +55,7 @@ class ProductosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                INSERT INTO PDV.PRODUCTOS (IDPRODUCTO, IDCATEGORIA, NOMBRE, DESCRIPCION, PRECIOVENTAUNITARIO, EXISTENCIAS)
+                INSERT INTO PRODUCTOS (IDPRODUCTO, IDCATEGORIA, NOMBRE, DESCRIPCION, PRECIOVENTAUNITARIO, EXISTENCIAS)
                 VALUES ({id}, {producto.idCategoria}, '{producto.nombre}', '{producto.descripcion}', {producto.precioVentaUnitario}, {producto.existencias})
             '''
             self.db.execute(sql)
@@ -75,7 +76,7 @@ class ProductosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                DELETE FROM PDV.PRODUCTOS WHERE IDPRODUCTO={producto.idProducto}
+                DELETE FROM PRODUCTOS WHERE IDPRODUCTO={producto.idProducto}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -95,7 +96,7 @@ class ProductosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                UPDATE FROM PDV.PRODUCTOS 
+                UPDATE FROM PRODUCTOS 
                 SET  IDCATEGORIA={producto.idCategoria}, 
                 NOMBRE='{producto.nombre}', 
                 DESCRIPCION='{producto.descripcion}', 

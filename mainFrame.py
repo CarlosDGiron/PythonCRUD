@@ -1,10 +1,6 @@
-from controller.CRUD.proveedoresCRUD import ProveedoresCRUD
-from model.pdvModels import Proveedor
-import datetime
+from view.ventas import VentasVentana
+from tkinter import *
 
-dbCRUD= ProveedoresCRUD()
-data=dbCRUD.getProveedorByNIT('P0001')
-print(data)
-nombre=Proveedor()
-nombre.set(data)
-print (nombre)
+root=Tk()
+productosVentana = VentasVentana(root)
+root.mainloop()

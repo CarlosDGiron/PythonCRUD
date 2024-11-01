@@ -15,7 +15,7 @@ class SucursalesCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT MAX(IDSUCURSAL) 
-            FROM PDV.SUCURSALES
+            FROM SUCURSALES
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class SucursalesCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.SUCURSALES
+            FROM SUCURSALES
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +39,7 @@ class SucursalesCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.SUCURSALES
+            FROM SUCURSALES
             WHERE IDSUCURSAL = {id}
         '''
         self.db.execute(sql)
@@ -54,7 +54,7 @@ class SucursalesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.SUCURSALES (IDSUCURSAL, IDEMPLEADOENCARGADO, NOMBRE, DIRECCION)
+                INSERT INTO SUCURSALES (IDSUCURSAL, IDEMPLEADOENCARGADO, NOMBRE, DIRECCION)
                 VALUES ({id}, {sucursal.idEmpleadoEncargado}, '{sucursal.nombre}', '{sucursal.direccion}')
             '''
             self.db.execute(sql)
@@ -75,7 +75,7 @@ class SucursalesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.SUCURSALES WHERE IDSUCURSAL = {sucursal.idSucursal}
+                DELETE FROM SUCURSALES WHERE IDSUCURSAL = {sucursal.idSucursal}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -95,7 +95,7 @@ class SucursalesCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.SUCURSALES 
+                UPDATE SUCURSALES 
                 SET IDEMPLEADOENCARGADO = {sucursal.idEmpleadoEncargado}, 
                     NOMBRE = '{sucursal.nombre}', 
                     DIRECCION = '{sucursal.direccion}' 

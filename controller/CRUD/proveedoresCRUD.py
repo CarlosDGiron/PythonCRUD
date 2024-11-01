@@ -15,7 +15,7 @@ class ProveedoresCRUD:
             self.db = self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.PROVEEDORES
+            FROM PROVEEDORES
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class ProveedoresCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.PROVEEDORES
+            FROM PROVEEDORES
             WHERE NIT = '{nit}'
         '''
         self.db.execute(sql)
@@ -41,7 +41,7 @@ class ProveedoresCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.PROVEEDORES (NIT, NOMBREFISCAL, DIRECCION, TELEFONO, SALDOPORPAGAR, EMAIL)
+                INSERT INTO PROVEEDORES (NIT, NOMBREFISCAL, DIRECCION, TELEFONO, SALDOPORPAGAR, EMAIL)
                 VALUES ('{proveedor.nit}', '{proveedor.nombreFiscal}', '{proveedor.direccion}', '{proveedor.telefono}', {proveedor.saldoPorPagar}, '{proveedor.email}')
             '''
             self.db.execute(sql)
@@ -62,7 +62,7 @@ class ProveedoresCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.PROVEEDORES WHERE NIT = '{proveedor.nit}'
+                DELETE FROM PROVEEDORES WHERE NIT = '{proveedor.nit}'
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -82,7 +82,7 @@ class ProveedoresCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.PROVEEDORES 
+                UPDATE PROVEEDORES 
                 SET NOMBREFISCAL = '{proveedor.nombreFiscal}', 
                     DIRECCION = '{proveedor.direccion}', 
                     TELEFONO = '{proveedor.telefono}', 

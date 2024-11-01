@@ -15,7 +15,7 @@ class FormaDePagoCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT MAX(IDFORMADEPAGO) 
-            FROM PDV.FORMA_DE_PAGO
+            FROM FORMA_DE_PAGO
         '''
         self.db.execute(sql)
         data = self.db.fetchone()
@@ -27,7 +27,7 @@ class FormaDePagoCRUD:
             self.db=self.connectSession()
         sql = '''
             SELECT * 
-            FROM PDV.FORMA_DE_PAGO
+            FROM FORMA_DE_PAGO
         '''
         self.db.execute(sql)
         data = self.db.fetchall()
@@ -39,7 +39,7 @@ class FormaDePagoCRUD:
             self.db = self.connectSession()
         sql = f'''
             SELECT * 
-            FROM PDV.FORMA_DE_PAGO
+            FROM FORMA_DE_PAGO
             WHERE IDFORMADEPAGO = {id}
         '''
         self.db.execute(sql)
@@ -54,7 +54,7 @@ class FormaDePagoCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                INSERT INTO PDV.FORMA_DE_PAGO (IDFORMADEPAGO, FORMADEPAGO)
+                INSERT INTO FORMA_DE_PAGO (IDFORMADEPAGO, FORMADEPAGO)
                 VALUES ({id}, '{formaDePago.formaDePago}')
             '''
             self.db.execute(sql)
@@ -75,7 +75,7 @@ class FormaDePagoCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                DELETE FROM PDV.FORMA_DE_PAGO WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
+                DELETE FROM FORMA_DE_PAGO WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
             '''
             self.db.execute(sql)
             self.db.connection.commit()
@@ -95,7 +95,7 @@ class FormaDePagoCRUD:
             if(self.db._verify_open):            
                 self.db = self.connectSession()
             sql = f'''
-                UPDATE PDV.FORMA_DE_PAGO 
+                UPDATE FORMA_DE_PAGO 
                 SET FORMADEPAGO = '{formaDePago.formaDePago}'
                 WHERE IDFORMADEPAGO = {formaDePago.idFormaDePago}
             '''

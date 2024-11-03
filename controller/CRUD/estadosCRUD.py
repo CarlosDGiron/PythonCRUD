@@ -98,7 +98,7 @@ class EstadosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                UPDATE FROM ESTADOS_TRANSACCIONES 
+                UPDATE  ESTADOS_TRANSACCIONES 
                 SET  ESTADO='{estado.estado}', 
                 DESCRIPCION='{estado.descripcion}'
                 WHERE IDESTADO={estado.idEstado}

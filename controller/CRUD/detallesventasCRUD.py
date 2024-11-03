@@ -87,12 +87,13 @@ class DetallesVentasCRUD:
             self.db.execute(sql)
             self.db.connection.commit()
         except Error as error:
-            print(error)
+            print("insertDetalleVenta error:"+error)
         except Exception as exception:
-            print(exception)
+            print("insertDetalleVenta exception"+exception)
         else:            
             self.db.close()
-            data = True
+            data=True
+            self.updateTotalVenta(detalleVenta.idVenta)
         finally:
             return data
 
@@ -107,12 +108,34 @@ class DetallesVentasCRUD:
             self.db.execute(sql)
             self.db.connection.commit()
         except Error as error:
-            print(error)
+            print("deleteDetalleVenta error:"+error)
         except Exception as exception:
-            print(exception)
+            print("deleteDetalleVenta exception"+exception)
         else:            
-            self.db.close()
-            data = True
+            self.db.close()            
+            data=True
+            self.updateTotalVenta(detalleVenta.idVenta)
+        finally:
+            return data
+        
+    def deleteDetalleVentaByIdVenta(self, idVenta: int):
+        try:
+            data = False
+            if(self.db._verify_open):            
+                self.db = self.connectSession()
+            sql = f'''
+                DELETE FROM DETALLES_VENTAS WHERE IDVENTA = {idVenta}
+            '''
+            self.db.execute(sql)
+            self.db.connection.commit()
+        except Error as error:
+            print("deleteDetalleVentaByIdVenta error:"+error)
+        except Exception as exception:
+            print("deleteDetalleVentaByIdVenta exception"+exception)
+        else:            
+            self.db.close()            
+            data=True
+            self.updateTotalVenta(idVenta)
         finally:
             return data
 
@@ -129,12 +152,36 @@ class DetallesVentasCRUD:
                     PRECIOVENTAUNITARIO = {detalleVenta.precioVentaUnitario}
                 WHERE IDDETALLEVENTA = {detalleVenta.idDetalleVenta}
             '''
+            print(sql)
             self.db.execute(sql)
             self.db.connection.commit()
         except Error as error:
-            print(error)
+            print("updateDetalleVenta error:"+error)
         except Exception as exception:
-            print(exception)
+            print("updateDetalleVenta exception"+exception)
+        else:            
+            self.db.close()
+            data=True
+            self.updateTotalVenta(detalleVenta.idVenta)
+        finally:
+            return data
+        
+    def updateTotalVenta(self, idVenta: int):
+        try:
+            data = False
+            if(self.db._verify_open):            
+                self.db = self.connectSession()
+            sql = f'''
+                UPDATE VENTAS 
+                SET TOTALVENTA = '{self.getTotalVentaByID(idVenta)}'
+                WHERE IDVENTA = {idVenta}
+            '''
+            self.db.execute(sql)
+            self.db.connection.commit()
+        except Error as error:
+            print("updateTotalVenta error:"+error)
+        except Exception as exception:
+            print("updateTotalVenta exception"+exception)
         else:            
             self.db.close()
             data = True

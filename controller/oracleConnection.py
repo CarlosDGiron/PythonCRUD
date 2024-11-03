@@ -1,4 +1,5 @@
 import oracledb
+
 def oracleSessionCursor():
     oracleConnection = oracledb.connect(
         user="PDV_CRUD",

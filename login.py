@@ -1,4 +1,7 @@
 from tkinter import *
+from tkinter import messagebox
+from controller import sqlserverCRUD as sqlserverCRUD
+from mainFrame import Aplicacion
 
 root=Tk()
 root.title("SAE/SAP Login")
@@ -28,10 +31,28 @@ passLabel=Label(frame,text="Password:")
 passLabel.config(justify="left")
 passLabel.grid(row=2,column=0, padx=10, pady=10, sticky="W")
 
-loginButton=Button(frame,text="Loguearse")
+def login():
+    username=userEntry.get()
+    password=passEntry.get()
+    idUsuario=sqlserverCRUD.validarCredenciales(username,password)
+    if idUsuario.is_integer:
+        messagebox.showinfo("Login","Credenciales validas.")
+        submenus=sqlserverCRUD.getPermisos(idUsuario)
+        print(submenus)
+        ventana=Aplicacion(submenus)
+        ventana.mainloop()
+    else:
+        messagebox.showinfo("Login","Credenciales invalidas.")        
+    
+loginButton=Button(frame,text="Loguearse", command=login)
 loginButton.grid(row=3,column=1, padx=10, pady=10, sticky="EW")
 
-closeButton=Button(frame,text="Cerrar")
+def cerrar():
+    if(messagebox.askyesno("Login","¿Desea cerrar la aplicación?")):
+        root.destroy()
+
+closeButton=Button(frame,text="Cerrar", command=cerrar)
 closeButton.grid(row=3,column=0, padx=10, pady=10, sticky="EW")
+
 
 root.mainloop()

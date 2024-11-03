@@ -113,7 +113,7 @@ class Venta:
         self.anioventa=list[8]
         self.mesventa=list[9]
         self.documentoPago=list[10]
-        self.totalVenta=list[11]
+        self.totalVenta=list[12]
     
 @dataclass
 class Detalle_Venta:

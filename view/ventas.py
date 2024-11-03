@@ -3,6 +3,9 @@ from tkinter import ttk, messagebox
 from controller.CRUD.ventasCRUD import VentasCRUD  # Importa el CRUD de Ventas
 from controller.CRUD.detallesventasCRUD import DetallesVentasCRUD  # Importa el CRUD de Detalles de Ventas
 from model.diccionarios import *
+from model.pdvModels import Venta, Detalle_Venta
+from view.detalleventas import DetalleVentaVentana
+
 
 class VentasVentana:
     def __init__(self, root):
@@ -13,89 +16,170 @@ class VentasVentana:
         self.ventas_crud = VentasCRUD()
         self.detalles_ventas_crud = DetallesVentasCRUD()
         
+        # Frame para el formulario de ventas
+        self.frame_formulario_ventas = ttk.Frame(self.root)
+        self.frame_formulario_ventas.pack(pady=10)
+        
+        # Labels y Entry para la entrada de datos en ventas, alineados en una cuadrícula
+        tk.Label(self.frame_formulario_ventas, text="ID Venta").grid(row=0, column=0, padx=5, pady=5)
+        self.id_venta_entry = tk.Entry(self.frame_formulario_ventas)
+        self.id_venta_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="ID Sucursal").grid(row=0, column=2, padx=5, pady=5)
+        self.id_sucursal_entry = tk.Entry(self.frame_formulario_ventas)
+        self.id_sucursal_entry.grid(row=0, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="ID Estado").grid(row=1, column=0, padx=5, pady=5)
+        self.id_estado_entry = tk.Entry(self.frame_formulario_ventas)
+        self.id_estado_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="ID Empleado").grid(row=1, column=2, padx=5, pady=5)
+        self.id_empleado_entry = tk.Entry(self.frame_formulario_ventas)
+        self.id_empleado_entry.grid(row=1, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="NIT Cliente").grid(row=2, column=0, padx=5, pady=5)
+        self.nit_cliente_entry = tk.Entry(self.frame_formulario_ventas)
+        self.nit_cliente_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="ID Forma de Pago").grid(row=2, column=2, padx=5, pady=5)
+        self.id_forma_pago_entry = tk.Entry(self.frame_formulario_ventas)
+        self.id_forma_pago_entry.grid(row=2, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Serie").grid(row=3, column=0, padx=5, pady=5)
+        self.serie_entry = tk.Entry(self.frame_formulario_ventas)
+        self.serie_entry.grid(row=3, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Factura").grid(row=3, column=2, padx=5, pady=5)
+        self.factura_entry = tk.Entry(self.frame_formulario_ventas)
+        self.factura_entry.grid(row=3, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Fecha y Hora").grid(row=4, column=0, padx=5, pady=5)
+        self.fecha_hora_entry = tk.Entry(self.frame_formulario_ventas)
+        self.fecha_hora_entry.grid(row=4, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Año Venta").grid(row=4, column=2, padx=5, pady=5)
+        self.anio_venta_entry = tk.Entry(self.frame_formulario_ventas)
+        self.anio_venta_entry.grid(row=4, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Mes Venta").grid(row=5, column=0, padx=5, pady=5)
+        self.mes_venta_entry = tk.Entry(self.frame_formulario_ventas)
+        self.mes_venta_entry.grid(row=5, column=1, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Documento Pago").grid(row=5, column=2, padx=5, pady=5)
+        self.documento_pago_entry = tk.Entry(self.frame_formulario_ventas)
+        self.documento_pago_entry.grid(row=5, column=3, padx=5, pady=5)
+
+        tk.Label(self.frame_formulario_ventas, text="Total Venta").grid(row=6, column=0, padx=5, pady=5)
+        self.total_venta_entry = tk.Entry(self.frame_formulario_ventas)
+        self.total_venta_entry.grid(row=6, column=1, padx=5, pady=5)
+
+        # Botones de CRUD para ventas
+        self.btn_agregar_venta = ttk.Button(self.frame_formulario_ventas, text="Agregar Venta", command=self.agregar_venta)
+        self.btn_agregar_venta.grid(row=7, column=0, padx=5, pady=5)
+        
+        self.btn_actualizar_venta = ttk.Button(self.frame_formulario_ventas, text="Actualizar Venta", command=self.actualizar_venta)
+        self.btn_actualizar_venta.grid(row=7, column=1, padx=5, pady=5)
+        
+        self.btn_eliminar_venta = ttk.Button(self.frame_formulario_ventas, text="Eliminar Venta", command=self.eliminar_venta)
+        self.btn_eliminar_venta.grid(row=7, column=2, padx=5, pady=5)
+        
+        # Botón para ver detalles de la venta
+        self.btn_ver_detalle = ttk.Button(self.frame_formulario_ventas, text="Ver Detalle de Venta", command=self.ver_detalle_venta)
+        self.btn_ver_detalle.grid(row=7, column=3, padx=5, pady=5)
+        
         # Frame para la tabla de ventas
         self.frame_ventas = ttk.Frame(self.root)
         self.frame_ventas.pack(fill=tk.BOTH, expand=True)
         
         # Configuración de la tabla de ventas
-        self.tabla_ventas = ttk.Treeview(self.frame_ventas, columns=("ID Venta", "Serie", "Factura", "NITCliente", "Cliente", "Fecha", "Total"), show="headings")
-        self.tabla_ventas.heading("ID Venta", text="ID Venta")
-        self.tabla_ventas.heading("Serie", text="Serie")
-        self.tabla_ventas.heading("Factura", text="Factura")
-        self.tabla_ventas.heading("NITCliente", text="NIT del Cliente")
-        self.tabla_ventas.heading("Cliente", text="NIT del Cliente")
-        self.tabla_ventas.heading("Fecha", text="Fecha y Hora")
-        self.tabla_ventas.heading("Total", text="Total Venta")
+        self.tabla_ventas = ttk.Treeview(self.frame_ventas, columns=("ID Venta", "ID Sucursal", "ID Estado", "ID Empleado", "NIT Cliente", "ID Forma Pago", "Serie", "Factura", "Fecha y Hora", "Año Venta", "Mes Venta", "Documento Pago", "Total Venta"), show="headings")
         
+        headers = ["ID Venta", "ID Sucursal", "ID Estado", "ID Empleado", "NIT Cliente", "ID Forma Pago", "Serie", "Factura", "Fecha y Hora", "Año Venta", "Mes Venta", "Documento Pago", "Total Venta"]
+        for i, header in enumerate(headers):
+            self.tabla_ventas.heading(i, text=header)
+
         # Colocar la tabla y agregar scrollbar
         self.tabla_ventas.pack(fill=tk.BOTH, expand=True)
         scrollbar = ttk.Scrollbar(self.frame_ventas, orient=tk.VERTICAL, command=self.tabla_ventas.yview)
         self.tabla_ventas.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
-        # Botón para seleccionar y ver detalles de la venta
-        self.btn_ver_detalle = ttk.Button(self.root, text="Ver Detalle de Venta", command=self.ver_detalle_venta)
-        self.btn_ver_detalle.pack(pady=10)
+        # Asignar evento de selección en la tabla
+        self.tabla_ventas.bind("<<TreeviewSelect>>", self.cargar_venta_seleccionada)
         
         # Cargar datos en la tabla de ventas
         self.cargar_ventas()
-    
+
     def cargar_ventas(self):
         # Obtener todos los encabezados de ventas y llenar la tabla
-        ventas = self.ventas_crud.getAllVentas()
-        dicClientes=obtener_diccionario_clientes()
+        for row in self.tabla_ventas.get_children():
+            self.tabla_ventas.delete(row)
+        
+        ventas=list()
+        tuplaventas= self.ventas_crud.getAllVentas()        
+        for tupla in tuplaventas:      
+            ventaauxiliar=Venta()      
+            ventaauxiliar.set(tupla)
+            ventas.append(ventaauxiliar)
         for venta in ventas:
-            # Suponiendo que el total de la venta es un campo calculado o agregado a la tabla de Ventas
-            self.tabla_ventas.insert("", tk.END, values=(venta[0], venta[5], venta[6], venta[4], dicClientes.get(venta[4])['nombres'], venta[7], venta[12]))
+            self.tabla_ventas.insert("", tk.END, values=(
+                venta.idVenta, venta.idSucursal, venta.idEstado, venta.idEmpleado, venta.nitCliente,
+                venta.idFormaDePago, venta.serie, venta.factura, venta.fechahora, venta.anioventa,
+                venta.mesventa, venta.documentoPago, venta.totalVenta))
+
+    def cargar_venta_seleccionada(self, event):
+        # Obtener el elemento seleccionado
+        seleccionado = self.tabla_ventas.focus()
+        if not seleccionado:
+            return
+        
+        valores = self.tabla_ventas.item(seleccionado, "values")
+        
+        # Cargar los valores en los Entry correspondientes
+        entries = [
+            self.id_venta_entry, self.id_sucursal_entry, self.id_estado_entry, self.id_empleado_entry,
+            self.nit_cliente_entry, self.id_forma_pago_entry, self.serie_entry, self.factura_entry,
+            self.fecha_hora_entry, self.anio_venta_entry, self.mes_venta_entry, self.documento_pago_entry,
+            self.total_venta_entry
+        ]
+        
+        for entry, valor in zip(entries, valores):
+            entry.delete(0, tk.END)
+            entry.insert(0, valor)
+
+    def agregar_venta(self):
+        self.ventas_crud.insertVenta(self.getVenta())
+        self.cargar_ventas()
+    
+    def actualizar_venta(self):
+        self.ventas_crud.updateVenta(self.getVenta())
+        self.cargar_ventas()
+    
+    def eliminar_venta(self):
+        self.ventas_crud.deleteVenta(self.getVenta())
+        self.cargar_ventas()
+        
+    def getVenta(self):
+        return Venta(idVenta=int(self.id_venta_entry.get()),
+                     idSucursal=int(self.id_sucursal_entry.get()),
+                     idEstado=int(self.id_estado_entry.get()),
+                     idEmpleado=int(self.id_empleado_entry.get()),
+                     nitCliente=self.nit_cliente_entry.get(),
+                     idFormaDePago=int(self.id_forma_pago_entry.get()),
+                     serie=self.serie_entry.get(),
+                     factura=self.factura_entry.get(),
+                     fechahora=self.fecha_hora_entry.get(),
+                     anioventa=int(self.anio_venta_entry.get()),
+                     mesventa=int(self.mes_venta_entry.get()),
+                     documentoPago=self.documento_pago_entry.get(),
+                     totalVenta=float(self.total_venta_entry.get()))
     
     def ver_detalle_venta(self):
-        # Obtener la venta seleccionada
         seleccionado = self.tabla_ventas.focus()
         if not seleccionado:
             messagebox.showwarning("Advertencia", "Seleccione una venta para ver el detalle.")
             return
         
-        # Obtener el ID de la venta seleccionada
         valores = self.tabla_ventas.item(seleccionado, "values")
         venta_id = int(valores[0])
-        
-        # Crear ventana de detalle de la venta
-        DetalleVentaVentana(self.root, self.detalles_ventas_crud, venta_id)
-            
-class DetalleVentaVentana:
-    def __init__(self, parent, detalles_ventas_crud, venta_id):
-        self.detalles_ventas_crud = detalles_ventas_crud
-        self.venta_id = venta_id
-        self.window = tk.Toplevel(parent)
-        self.window.title(f"Detalle de Venta ID {venta_id}")
-        
-        # Frame para la tabla de detalle de venta
-        self.frame_detalle = ttk.Frame(self.window)
-        self.frame_detalle.pack(fill=tk.BOTH, expand=True)
-        
-        # Configuración de la tabla de detalles de venta
-        self.tabla_detalle = ttk.Treeview(self.frame_detalle, columns=("ID Producto", "Producto", "Cantidad", "Precio Unitario", "Subtotal"), show="headings")
-        self.tabla_detalle.heading("ID Producto", text="ID Producto")
-        self.tabla_detalle.heading("Producto", text="Producto")
-        self.tabla_detalle.heading("Cantidad", text="Cantidad")
-        self.tabla_detalle.heading("Precio Unitario", text="Precio Unitario")
-        self.tabla_detalle.heading("Subtotal", text="Subtotal")
-        
-        # Colocar la tabla y agregar scrollbar
-        self.tabla_detalle.pack(fill=tk.BOTH, expand=True)
-        scrollbar = ttk.Scrollbar(self.frame_detalle, orient=tk.VERTICAL, command=self.tabla_detalle.yview)
-        self.tabla_detalle.configure(yscroll=scrollbar.set)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
-        # Cargar datos del detalle de la venta
-        self.cargar_detalle_venta()
-    
-    def cargar_detalle_venta(self):
-        # Obtener el detalle de la venta usando el ID de la venta
-        detalles = self.detalles_ventas_crud.getDetallesVentasByIDVenta(self.venta_id)
-        dicProductos=obtener_diccionario_productos()
-        
-        for detalle in detalles:
-            subtotal = detalle[3] * detalle[4]  # Cantidad * Precio Unitario
-            self.tabla_detalle.insert("", tk.END, values=(detalle[2], dicProductos.get(detalle[2])['nombre'], detalle[3], detalle[4], subtotal))
-
+        DetalleVentaVentana(self.root, venta_id)

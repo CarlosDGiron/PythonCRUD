@@ -46,6 +46,7 @@ class ProductosCRUD:
         self.db.execute(sql)
         data = self.db.fetchone()
         self.db.close()
+        print(data)
         return data
     
     def insertProducto(self, producto:Producto):
@@ -96,14 +97,15 @@ class ProductosCRUD:
             if(self.db._verify_open):            
                 self.db=self.connectSession()
             sql=f'''
-                UPDATE FROM PRODUCTOS 
-                SET  IDCATEGORIA={producto.idCategoria}, 
-                NOMBRE='{producto.nombre}', 
-                DESCRIPCION='{producto.descripcion}', 
-                PRECIOVENTAUNITARIO={producto.precioVentaUnitario}, 
-                EXISTENCIAS={producto.existencias}, 
-                WHERE IDPRODUCTO={producto.idProducto}
+                UPDATE PRODUCTOS 
+                SET IDCATEGORIA = {producto.idCategoria} , 
+                NOMBRE = '{producto.nombre}' , 
+                DESCRIPCION ='{producto.descripcion}' , 
+                PRECIOVENTAUNITARIO = {producto.precioVentaUnitario} , 
+                EXISTENCIAS = {producto.existencias}
+                WHERE IDPRODUCTO = {producto.idProducto}
             '''
+            print (sql)
             self.db.execute(sql)
             self.db.connection.commit()
         except Error as error:

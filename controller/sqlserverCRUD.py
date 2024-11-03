@@ -13,7 +13,7 @@ def validarCredenciales(username, password):
         
         if row is None:
             print("Credenciales invalidas")
-            return False
+            return -1
 
         else:
             print("Credenciales validas")

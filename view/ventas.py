@@ -10,7 +10,7 @@ from view.detalleventas import DetalleVentaVentana
 class VentasVentana:
     def __init__(self, root):
         self.root = root
-        self.root.title("Gestión de Ventas")
+        self.root.title("SAE/SAP Gestión de Ventas")
         
         # Instancias de los CRUDs de Ventas y Detalles de Ventas
         self.ventas_crud = VentasCRUD()

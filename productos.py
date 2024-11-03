@@ -20,25 +20,25 @@ class ProductosFrame(tk.Frame):
         self.idProducto_entry = tk.Entry(self)
         self.idProducto_entry.grid(row=0, column=1, padx=5, pady=5)
         
-        tk.Label(self, text="ID Categoría").grid(row=1, column=0, padx=5, pady=5)
-        self.idCategoria_entry = ttk.Combobox(self,state="readonly")
-        self.idCategoria_entry.grid(row=1, column=1, padx=5, pady=5)
+        tk.Label(self, text="ID Categoría").grid(row=0, column=2, padx=5, pady=5)
+        self.idCategoria_entry = tk.Entry(self)
+        self.idCategoria_entry.grid(row=0, column=3, padx=5, pady=5)
         
-        tk.Label(self, text="Nombre").grid(row=2, column=0, padx=5, pady=5)
+        tk.Label(self, text="Nombre").grid(row=1, column=0, padx=5, pady=5)
         self.nombre_entry = tk.Entry(self)
-        self.nombre_entry.grid(row=2, column=1, padx=5, pady=5)
+        self.nombre_entry.grid(row=1, column=1, padx=5, pady=5)
         
-        tk.Label(self, text="Descripción").grid(row=3, column=0, padx=5, pady=5)
+        tk.Label(self, text="Descripción").grid(row=1, column=2, padx=5, pady=5)
         self.descripcion_entry = tk.Entry(self)
-        self.descripcion_entry.grid(row=3, column=1, padx=5, pady=5)
+        self.descripcion_entry.grid(row=1, column=3, padx=5, pady=5)
         
-        tk.Label(self, text="Precio Venta Unitario").grid(row=4, column=0, padx=5, pady=5)
+        tk.Label(self, text="Precio Venta Unitario").grid(row=2, column=0, padx=5, pady=5)
         self.precio_entry = tk.Entry(self)
-        self.precio_entry.grid(row=4, column=1, padx=5, pady=5)
+        self.precio_entry.grid(row=2, column=1, padx=5, pady=5)
         
-        tk.Label(self, text="Existencias").grid(row=5, column=0, padx=5, pady=5)
+        tk.Label(self, text="Existencias").grid(row=2, column=2, padx=5, pady=5)
         self.existencias_entry = tk.Entry(self)
-        self.existencias_entry.grid(row=5, column=1, padx=5, pady=5)
+        self.existencias_entry.grid(row=2, column=3, padx=5, pady=5)
 
         # Botones para CRUD
         tk.Button(self, text="Agregar", command=self.agregar_producto).grid(row=6, column=0, padx=5, pady=5)
@@ -55,7 +55,7 @@ class ProductosFrame(tk.Frame):
         self.tabla_productos.heading("Existencias", text="Existencias")
         
         self.tabla_productos.bind("<Double-1>", self.seleccionar_producto)
-        self.tabla_productos.grid(row=7, column=0, columnspan=3, padx=5, pady=5, sticky="nsew")
+        self.tabla_productos.grid(row=7, column=0, columnspan=4, padx=5, pady=5, sticky="nsew")
     
     def cargar_productos(self):
         # Limpiar la tabla
@@ -123,7 +123,7 @@ class ProductosFrame(tk.Frame):
         # Obtener ID del producto a eliminar
         producto_eliminar = Producto(
             idProducto=int(self.idProducto_entry.get()),
-            idCategoria=int(self.idCategoria_entry.get),
+            idCategoria=int(self.idCategoria_entry.get()),
             nombre=self.nombre_entry.get(),
             descripcion=self.descripcion_entry.get(),
             precioVentaUnitario=float(self.precio_entry.get()),
@@ -139,4 +139,5 @@ class ProductosFrame(tk.Frame):
         self.nombre_entry.delete(0, tk.END)
         self.existencias_entry.delete(0, tk.END)
         self.precio_entry.delete(0, tk.END)
+        self.idCategoria_entry.delete(0, tk.END)
         self.descripcion_entry.delete(0, tk.END)

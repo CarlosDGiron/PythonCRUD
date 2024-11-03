@@ -35,7 +35,7 @@ def login():
     username=userEntry.get()
     password=passEntry.get()
     idUsuario=sqlserverCRUD.validarCredenciales(username,password)
-    if idUsuario.is_integer:
+    if idUsuario>0:
         messagebox.showinfo("Login","Credenciales validas.")
         submenus=sqlserverCRUD.getPermisos(idUsuario)
         print(submenus)

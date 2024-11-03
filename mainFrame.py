@@ -1,11 +1,12 @@
 import tkinter as tk
+from productos import ProductosFrame
 
 class Aplicacion(tk.Tk):
     def __init__(self, submenus):
         super().__init__()
         
-        self.title("Aplicación Dinámica con Menú")
-        self.geometry("400x300")
+        self.title("SAE/SAP MENU")
+        self.geometry("800x480")
         
         # Crear el menú superior
         self.menu_bar = tk.Menu(self)
@@ -48,12 +49,20 @@ class Aplicacion(tk.Tk):
         if self.frame_actual:
             self.frame_actual.pack_forget()
         
-        # Crear una instancia de la clase del frame según el idSubmenu (podemos definir clases específicas más adelante)
-        frame = FrameDinamico(self, idSubmenu)
-        frame.pack(fill="both", expand=True)
+        if idSubmenu==4:
+            # Crear una instancia de la clase del frame según el idSubmenu (podemos definir clases específicas más adelante)
+            frame = FrameDinamico(self, idSubmenu)
+            frame.pack(fill="both", expand=True)
         
-        # Actualizar el frame actual
-        self.frame_actual = frame
+            # Actualizar el frame actual
+            self.frame_actual = frame
+        else:
+            if idSubmenu==1:
+                
+                frame=ProductosFrame(self)
+                frame.pack(fill="both", expand=True)
+                self.frame_actual = frame
+        
 
 class FrameDinamico(tk.Frame):
     def __init__(self, parent, idSubmenu):

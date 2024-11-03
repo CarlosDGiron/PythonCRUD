@@ -9,7 +9,7 @@ class DetalleVentaVentana:
         self.detalles_ventas_crud = DetallesVentasCRUD()
         self.idVenta = idVenta
         self.window = tk.Toplevel(parent)
-        self.window.title(f"Detalle de Venta ID {idVenta}")
+        self.window.title(f"SAE/SAP Detalle de Venta ID {idVenta}")
         
         # Frame para el formulario de detalle de venta
         self.frame_formulario_detalle = ttk.Frame(self.window)

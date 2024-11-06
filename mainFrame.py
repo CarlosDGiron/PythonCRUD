@@ -1,12 +1,21 @@
 import tkinter as tk
 from productos import ProductosFrame
+from view.ventas import VentasFrame 
+from view.clientes import ClientesFrame
 
 class Aplicacion(tk.Tk):
     def __init__(self, submenus):
         super().__init__()
         
-        self.title("SAE/SAP MENU")
-        self.geometry("800x480")
+        self.title("SAE/SAP Punto de Venta")
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        # Configurar la ventana para que ocupe toda la pantalla
+        self.geometry(f"{screen_width}x{screen_height}")
+
+        # Puedes hacer que la ventana sea maximizable o también inmovilizar el redimensionamiento, si es necesario
+        self.resizable(True, True)
         
         # Crear el menú superior
         self.menu_bar = tk.Menu(self)
@@ -14,6 +23,7 @@ class Aplicacion(tk.Tk):
         
         # Frame actual para mostrar el contenido
         self.frame_actual = None
+        self.state('zoomed')
         
         # Generar los menús y submenús dinámicamente usando el parámetro `submenus`
         self.generar_menu(submenus)
@@ -49,19 +59,28 @@ class Aplicacion(tk.Tk):
         if self.frame_actual:
             self.frame_actual.pack_forget()
         
-        if idSubmenu==4:
-            # Crear una instancia de la clase del frame según el idSubmenu (podemos definir clases específicas más adelante)
-            frame = FrameDinamico(self, idSubmenu)
-            frame.pack(fill="both", expand=True)
+        if idSubmenu==1:                
+            frame=ProductosFrame(self)
         
-            # Actualizar el frame actual
-            self.frame_actual = frame
-        else:
-            if idSubmenu==1:
+        elif idSubmenu==2:
+            print("Proveedores")
+            
+        elif idSubmenu==3:
+            print("Proveedores")
+            
+        elif idSubmenu==4:
+            frame=VentasFrame(self)
+        
+        elif idSubmenu==5:
+            frame=ClientesFrame(self)
+            
+        elif idSubmenu==6:
+            print("Compras")
                 
-                frame=ProductosFrame(self)
-                frame.pack(fill="both", expand=True)
-                self.frame_actual = frame
+                
+        frame.pack(fill="both", expand=True)
+        self.frame_actual = frame
+                
         
 
 class FrameDinamico(tk.Frame):

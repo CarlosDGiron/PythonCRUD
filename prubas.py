@@ -1,18 +1,10 @@
 from productos import ProductosFrame
 from controller.CRUD.productosCRUD import ProductosCRUD
 from model.pdvModels import Producto
-from view.ventas import VentasVentana
+from view.ventas import VentasFrame
+from login import *
 from tkinter import *
+from model.diccionarios import obtener_diccionario_formas_de_pago   
 
-root=Tk()
-ventana=VentasVentana(root)
-root.mainloop()
-# root=Tk()
-# root.title("SAE/SAP Login")
-# root.resizable(False,False)
-# root.config(bg="Gray")
-
-# frame=ProductosFrame(root)
-# frame.pack()
-
-# root.mainloop()
+dic=obtener_diccionario_formas_de_pago()
+print (dic.values())

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, Frame
 from model.pdvModels import Producto
 from controller.CRUD.productosCRUD import ProductosCRUD  # Importa el CRUD de Productos
 
@@ -16,37 +16,39 @@ class ProductosFrame(tk.Frame):
 
     def crear_interfaz(self):
         # Campos para entrada de datos
-        tk.Label(self, text="ID Producto").grid(row=0, column=0, padx=5, pady=5)
+        tk.Label(self, text="ID Producto").grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
         self.idProducto_entry = tk.Entry(self)
-        self.idProducto_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.idProducto_entry.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
         
-        tk.Label(self, text="ID Categoría").grid(row=0, column=2, padx=5, pady=5)
+        tk.Label(self, text="ID Categoría").grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
         self.idCategoria_entry = tk.Entry(self)
-        self.idCategoria_entry.grid(row=0, column=3, padx=5, pady=5)
+        self.idCategoria_entry.grid(row=0, column=3, padx=5, pady=5, sticky="nsew")
         
-        tk.Label(self, text="Nombre").grid(row=1, column=0, padx=5, pady=5)
+        tk.Label(self, text="Nombre").grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
         self.nombre_entry = tk.Entry(self)
-        self.nombre_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.nombre_entry.grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
         
-        tk.Label(self, text="Descripción").grid(row=1, column=2, padx=5, pady=5)
+        tk.Label(self, text="Descripción").grid(row=1, column=2, padx=5, pady=5, sticky="nsew")
         self.descripcion_entry = tk.Entry(self)
-        self.descripcion_entry.grid(row=1, column=3, padx=5, pady=5)
+        self.descripcion_entry.grid(row=1, column=3, padx=5, pady=5, sticky="nsew")
         
-        tk.Label(self, text="Precio Venta Unitario").grid(row=2, column=0, padx=5, pady=5)
+        tk.Label(self, text="Precio Venta Unitario").grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
         self.precio_entry = tk.Entry(self)
-        self.precio_entry.grid(row=2, column=1, padx=5, pady=5)
+        self.precio_entry.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
         
-        tk.Label(self, text="Existencias").grid(row=2, column=2, padx=5, pady=5)
+        tk.Label(self, text="Existencias").grid(row=2, column=2, padx=5, pady=5, sticky="nsew")
         self.existencias_entry = tk.Entry(self)
-        self.existencias_entry.grid(row=2, column=3, padx=5, pady=5)
+        self.existencias_entry.grid(row=2, column=3, padx=5, pady=5, sticky="nsew")
 
         # Botones para CRUD
-        tk.Button(self, text="Agregar", command=self.agregar_producto).grid(row=6, column=0, padx=5, pady=5)
-        tk.Button(self, text="Actualizar", command=self.actualizar_producto).grid(row=6, column=1, padx=5, pady=5)
-        tk.Button(self, text="Eliminar", command=self.eliminar_producto).grid(row=6, column=2, padx=5, pady=5)
+        tk.Button(self, text="Agregar", command=self.agregar_producto).grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        tk.Button(self, text="Actualizar", command=self.actualizar_producto).grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
+        tk.Button(self, text="Eliminar", command=self.eliminar_producto).grid(row=3, column=2, padx=5, pady=5, sticky="nsew")
         
         # Tabla para mostrar productos
-        self.tabla_productos = ttk.Treeview(self, columns=("ID", "Categoría", "Nombre", "Descripción", "Precio", "Existencias"), show="headings")
+        self.datos_frame=Frame(self)
+        self.datos_frame.grid(row=4, column=0, columnspan=4, padx=5, pady=5, sticky="nsew")
+        self.tabla_productos = ttk.Treeview(self.datos_frame, columns=("ID", "Categoría", "Nombre", "Descripción", "Precio", "Existencias"), show="headings")
         self.tabla_productos.heading("ID", text="ID")
         self.tabla_productos.heading("Categoría", text="Categoría")
         self.tabla_productos.heading("Nombre", text="Nombre")
@@ -54,8 +56,21 @@ class ProductosFrame(tk.Frame):
         self.tabla_productos.heading("Precio", text="Precio")
         self.tabla_productos.heading("Existencias", text="Existencias")
         
-        self.tabla_productos.bind("<Double-1>", self.seleccionar_producto)
-        self.tabla_productos.grid(row=7, column=0, columnspan=4, padx=5, pady=5, sticky="nsew")
+        for i in range(6):
+            self.tabla_productos.column(i, width=0, stretch=True)
+            
+        self.tabla_productos.bind("<<TreeviewSelect>>", self.seleccionar_producto)
+        self.tabla_productos.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+        self.datos_frame.grid_rowconfigure(0, weight=1)
+        self.datos_frame.grid_columnconfigure(0, weight=1)
+        
+        max_column = max(widget.grid_info()["column"] for widget in self.grid_slaves())
+        for j in range(max_column + 1):
+            self.grid_columnconfigure(j, weight=1)
+        
+        self.grid_rowconfigure(4, weight=1)
+    
     
     def cargar_productos(self):
         # Limpiar la tabla
